@@ -10,7 +10,9 @@ class Lecture(
     @PrimaryKey
     val name: String,
     val week: DayOfWeek,
-    val startTime: LocalTime
+    val startTime: LocalTime,
+    val tasks: List<ITask>,
+    val references: List<IReference>
 ){
 
 }

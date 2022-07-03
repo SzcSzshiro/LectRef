@@ -1,7 +1,6 @@
 package io.github.szcszshiro.lectref.domain.lecture
 
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 interface ITask {
     val name: String

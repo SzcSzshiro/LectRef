@@ -1,10 +1,14 @@
 package io.github.szcszshiro.lectref.domain.task
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import io.github.szcszshiro.lectref.domain.lecture.Lecture
 import java.time.LocalDateTime
 
 class Task private constructor(
     val id: Int,
+    val lectureId: Int,
     val name: String,
     val description: String,
     val deadLine: LocalDateTime,
@@ -13,14 +17,16 @@ class Task private constructor(
     companion object{
         fun reconstruct(
             id: Int,
+            lectureId: Int,
             name: String,
             description: String,
             deadLine: LocalDateTime,
             isDone: Boolean
-        ) = Task(id, name, description, deadLine, isDone)
+        ) = Task(id, lectureId, name, description, deadLine, isDone)
 
         fun create(
             id: Int,
+            lectureId: Int,
             name: String,
             description: String,
             deadLine: LocalDateTime,
@@ -29,7 +35,7 @@ class Task private constructor(
             if (!Lecture.isNameOk(name) || !Lecture.isDescriptionOk(description)){
                 return null
             }
-            return Task(id, name, description, deadLine, isDone)
+            return Task(id, lectureId, name, description, deadLine, isDone)
         }
 
         fun isNameOk(name: String) =

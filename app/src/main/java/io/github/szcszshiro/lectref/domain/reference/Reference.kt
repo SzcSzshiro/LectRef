@@ -1,18 +1,29 @@
-package io.github.szcszshiro.lectref.domain.lecture
+package io.github.szcszshiro.lectref.domain.reference
+
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import io.github.szcszshiro.lectref.domain.lecture.Lecture
 
 class Reference private constructor(
+    val id: Int,
+    val lectureId: Int,
     val name: String,
     val urls: List<String>,
     val description: String
 ){
     companion object{
         fun reconstruct(
+            id: Int,
+            lectureId: Int,
             name: String,
             urls: List<String>,
             description: String
-        ) = Reference(name, urls, description)
+        ) = Reference(id, lectureId, name, urls, description)
 
         fun create(
+            id: Int,
+            lectureId: Int,
             name: String,
             urls: List<String>,
             description: String
@@ -20,7 +31,7 @@ class Reference private constructor(
             if (!Lecture.isNameOk(name) || !Lecture.isDescriptionOk(description)){
                 return null
             }
-            return Reference(name, urls, description)
+            return Reference(id, lectureId, name, urls, description)
         }
 
         fun isNameOk(name: String) =

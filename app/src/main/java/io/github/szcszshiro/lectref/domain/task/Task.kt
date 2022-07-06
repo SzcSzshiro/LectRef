@@ -1,8 +1,5 @@
 package io.github.szcszshiro.lectref.domain.task
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import io.github.szcszshiro.lectref.domain.lecture.Lecture
 import java.time.LocalDateTime
 

@@ -1,6 +1,5 @@
 package io.github.szcszshiro.lectref.domain.task
 
-import io.github.szcszshiro.lectref.domain.lecture.Lecture
 import kotlinx.coroutines.flow.Flow
 
 interface ITaskRepository {

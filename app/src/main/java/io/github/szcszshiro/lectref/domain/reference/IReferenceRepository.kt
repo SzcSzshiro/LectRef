@@ -1,6 +1,5 @@
 package io.github.szcszshiro.lectref.domain.reference
 
-import io.github.szcszshiro.lectref.domain.lecture.Lecture
 import kotlinx.coroutines.flow.Flow
 
 interface IReferenceRepository {

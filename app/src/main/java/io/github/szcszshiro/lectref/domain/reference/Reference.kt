@@ -1,8 +1,5 @@
 package io.github.szcszshiro.lectref.domain.reference
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import io.github.szcszshiro.lectref.domain.lecture.Lecture
 
 class Reference private constructor(

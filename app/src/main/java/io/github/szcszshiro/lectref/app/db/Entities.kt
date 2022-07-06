@@ -16,7 +16,7 @@ import java.time.LocalTime
 data class LectureEntity(
     @PrimaryKey
     val id: Int,
-    val name: String?,
+    val name: String,
     val description: String,
     val week: DayOfWeek,
     @ColumnInfo(name = "start_time")

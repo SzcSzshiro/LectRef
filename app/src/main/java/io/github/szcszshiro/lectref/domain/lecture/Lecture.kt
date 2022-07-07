@@ -4,7 +4,7 @@ import java.time.DayOfWeek
 import java.time.LocalTime
 
 class Lecture private constructor(
-    val id: Int,
+    val id: Int?,
     val name: String,
     val description: String,
     val week: DayOfWeek,
@@ -20,7 +20,6 @@ class Lecture private constructor(
         ) = Lecture(id, name, description, week, startTime)
 
         fun create(
-            id: Int,
             name: String,
             description: String,
             week: DayOfWeek,
@@ -29,7 +28,7 @@ class Lecture private constructor(
             if (!isNameOk(name) || !isDescriptionOk(description)){
                 return null
             }
-            return Lecture(id, name, description, week, startTime)
+            return Lecture(null, name, description, week, startTime)
         }
 
         fun isNameOk(name: String) =

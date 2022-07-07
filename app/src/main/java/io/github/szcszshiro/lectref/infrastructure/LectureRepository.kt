@@ -7,6 +7,7 @@ import io.github.szcszshiro.lectref.domain.lecture.Lecture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import kotlin.jvm.Throws
 
 class LectureRepository @Inject constructor(
     private val dao: ILectureDao
@@ -15,7 +16,7 @@ class LectureRepository @Inject constructor(
         dao.allAsFlow().map { list ->
             list.map {
                 Lecture.reconstruct(
-                    it.id,
+                    it.id!!,
                     it.name,
                     it.description,
                     it.week,
@@ -27,7 +28,7 @@ class LectureRepository @Inject constructor(
     override suspend fun findAll(): List<Lecture> =
         dao.findAll().map {
             Lecture.reconstruct(
-                it.id,
+                it.id!!,
                 it.name,
                 it.description,
                 it.week,
@@ -38,7 +39,7 @@ class LectureRepository @Inject constructor(
     override suspend fun findFromId(id: Int): Lecture? =
         dao.findFromId(id)?.let {
             Lecture.reconstruct(
-                it.id,
+                it.id!!,
                 it.name,
                 it.description,
                 it.week,
@@ -47,6 +48,7 @@ class LectureRepository @Inject constructor(
         }
 
     override suspend fun add(lecture: Lecture) {
+        require(lecture.id == null)
         dao.insert(
             LectureEntity(
                 lecture.id,
@@ -58,7 +60,9 @@ class LectureRepository @Inject constructor(
         )
     }
 
+    @Throws(IllegalArgumentException::class)
     override suspend fun remove(lecture: Lecture) {
+        require(lecture.id != null)
         dao.delete(
             LectureEntity(
                 lecture.id,
@@ -70,7 +74,9 @@ class LectureRepository @Inject constructor(
         )
     }
 
+    @Throws(IllegalArgumentException::class)
     override suspend fun update(lecture: Lecture) {
+        require(lecture.id != null)
         dao.update(
             LectureEntity(
                 lecture.id,

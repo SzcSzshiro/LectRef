@@ -4,7 +4,7 @@ import io.github.szcszshiro.lectref.domain.lecture.Lecture
 import java.time.LocalDateTime
 
 class Task private constructor(
-    val id: Int,
+    val id: Int?,
     val lectureId: Int,
     val name: String,
     val description: String,
@@ -22,7 +22,6 @@ class Task private constructor(
         ) = Task(id, lectureId, name, description, deadLine, isDone)
 
         fun create(
-            id: Int,
             lectureId: Int,
             name: String,
             description: String,
@@ -32,7 +31,7 @@ class Task private constructor(
             if (!Lecture.isNameOk(name) || !Lecture.isDescriptionOk(description)){
                 return null
             }
-            return Task(id, lectureId, name, description, deadLine, isDone)
+            return Task(null, lectureId, name, description, deadLine, isDone)
         }
 
         fun isNameOk(name: String) =

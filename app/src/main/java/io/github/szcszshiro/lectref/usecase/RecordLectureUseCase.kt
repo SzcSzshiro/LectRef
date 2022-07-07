@@ -17,14 +17,13 @@ class RecordLectureUseCase @Inject constructor(
 ){
     @Throws(IllegalArgumentException::class)
     fun addLecture(
-        id: Int,
         name: String,
         description: String,
         week: DayOfWeek,
         startTime: LocalTime
     ){
         require(Lecture.isNameOk(name) && Lecture.isDescriptionOk(description))
-        val newLecture = Lecture.create(id, name, description, week, startTime)?: return
+        val newLecture = Lecture.create(name, description, week, startTime)?: return
         runBlocking {
             lectureRepository.add(newLecture)
         }

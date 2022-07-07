@@ -3,7 +3,7 @@ package io.github.szcszshiro.lectref.domain.reference
 import io.github.szcszshiro.lectref.domain.lecture.Lecture
 
 class Reference private constructor(
-    val id: Int,
+    val id: Int?,
     val lectureId: Int,
     val name: String,
     val urls: List<String>,
@@ -19,16 +19,15 @@ class Reference private constructor(
         ) = Reference(id, lectureId, name, urls, description)
 
         fun create(
-            id: Int,
             lectureId: Int,
             name: String,
             urls: List<String>,
             description: String
         ): Reference?{
-            if (!Lecture.isNameOk(name) || !Lecture.isDescriptionOk(description)){
+            if (!isNameOk(name) || !isDescriptionOk(description)){
                 return null
             }
-            return Reference(id, lectureId, name, urls, description)
+            return Reference(null, lectureId, name, urls, description)
         }
 
         fun isNameOk(name: String) =

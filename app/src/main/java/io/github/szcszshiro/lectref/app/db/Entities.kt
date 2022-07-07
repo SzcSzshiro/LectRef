@@ -14,8 +14,8 @@ import java.time.LocalTime
     LocalTimeConverter::class
 )
 data class LectureEntity(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int?,
     val name: String,
     val description: String,
     val week: DayOfWeek,
@@ -28,8 +28,8 @@ data class LectureEntity(
     StringListConverter::class
 )
 data class ReferenceEntity(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int?,
     @ColumnInfo(name = "lecture_id")
     val lectureId: Int,
     val name: String,
@@ -42,8 +42,8 @@ data class ReferenceEntity(
     LocalDateTimeConverter::class
 )
 data class TaskEntity(
-    @PrimaryKey
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int?,
     @ColumnInfo(name = "lecture_id")
     val lectureId: Int,
     val name: String,

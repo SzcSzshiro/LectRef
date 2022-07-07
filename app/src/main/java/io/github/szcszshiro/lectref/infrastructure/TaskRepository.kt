@@ -15,7 +15,7 @@ class TaskRepository @Inject constructor(
         dao.allAsFlow().map { list ->
             list.map {
                 Task.reconstruct(
-                    it.id,
+                    it.id!!,
                     it.lectureId,
                     it.name,
                     it.description,
@@ -28,7 +28,7 @@ class TaskRepository @Inject constructor(
     override suspend fun findAll(): List<Task> =
         dao.findAll().map {
             Task.reconstruct(
-                it.id,
+                it.id!!,
                 it.lectureId,
                 it.name,
                 it.description,
@@ -40,7 +40,7 @@ class TaskRepository @Inject constructor(
     override suspend fun findFromLectureId(id: Int): List<Task> =
         dao.findFromLectureId(id).map {
             Task.reconstruct(
-                it.id,
+                it.id!!,
                 it.lectureId,
                 it.name,
                 it.description,
@@ -50,6 +50,7 @@ class TaskRepository @Inject constructor(
         }
 
     override suspend fun add(task: Task) {
+        require(task.id == null)
         dao.insert(
             TaskEntity(
                 task.id,
@@ -63,6 +64,7 @@ class TaskRepository @Inject constructor(
     }
 
     override suspend fun remove(task: Task) {
+        require(task.id != null)
         dao.delete(
             TaskEntity(
                 task.id,

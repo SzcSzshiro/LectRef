@@ -7,6 +7,7 @@ import io.github.szcszshiro.lectref.domain.reference.Reference
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import kotlin.jvm.Throws
 
 class ReferenceRepository @Inject constructor(
     private val dao: IReferenceDao
@@ -15,7 +16,7 @@ class ReferenceRepository @Inject constructor(
         dao.allAsFlow().map { list ->
             list.map {
                 Reference.reconstruct(
-                    it.id,
+                    it.id!!,
                     it.lectureId,
                     it.name,
                     it.urls,
@@ -27,7 +28,7 @@ class ReferenceRepository @Inject constructor(
     override suspend fun findAll(): List<Reference> =
         dao.findAll().map {
             Reference.reconstruct(
-                it.id,
+                it.id!!,
                 it.lectureId,
                 it.name,
                 it.urls,
@@ -38,7 +39,7 @@ class ReferenceRepository @Inject constructor(
     override suspend fun findFromLectureId(id: Int): List<Reference> =
         dao.findFromLectureId(id).map {
             Reference.reconstruct(
-                it.id,
+                it.id!!,
                 it.lectureId,
                 it.name,
                 it.urls,
@@ -47,6 +48,7 @@ class ReferenceRepository @Inject constructor(
         }
 
     override suspend fun add(reference: Reference) {
+        require(reference.id == null)
         dao.insert(
             ReferenceEntity(
                 reference.id,
@@ -58,7 +60,9 @@ class ReferenceRepository @Inject constructor(
         )
     }
 
+    @Throws(IllegalArgumentException::class)
     override suspend fun remove(reference: Reference) {
+        require(reference.id != null)
         dao.delete(
             ReferenceEntity(
                 reference.id,

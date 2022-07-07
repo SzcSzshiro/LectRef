@@ -15,13 +15,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.szcszshiro.lectref.app.ui.theme.LectRefTheme
 import io.github.szcszshiro.lectref.usecase.RecordLectureUseCase
+import io.github.szcszshiro.lectref.usecase.RecordReferenceUseCase
+import io.github.szcszshiro.lectref.usecase.RecordTaskUseCase
 import java.time.DayOfWeek
+import java.time.LocalDateTime
 import java.time.LocalTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject lateinit var recordLectureUseCase: RecordLectureUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,17 +36,6 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Column(modifier = Modifier.fillMaxSize()) {
                         Greeting("Android")
-                        Text(
-                            text = "Push to Add Record",
-                            modifier = Modifier.clickable {
-                                recordLectureUseCase.addLecture(
-                                    "Test Lecture",
-                                    "This is Test Lecture Yeaaaahhhhhhh!",
-                                    DayOfWeek.MONDAY,
-                                    LocalTime.now()
-                                )
-                            }
-                        )
                     }
                 }
             }

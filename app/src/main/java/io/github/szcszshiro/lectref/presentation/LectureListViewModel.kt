@@ -1,6 +1,7 @@
 package io.github.szcszshiro.lectref.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.szcszshiro.lectref.usecase.ObserveLectureUseCase
 import io.github.szcszshiro.lectref.usecase.ObserveTaskUseCase
@@ -13,14 +14,16 @@ class LectureListViewModel @Inject constructor(
     private val observeLectureUseCase: ObserveLectureUseCase,
     private val observeTaskUseCase: ObserveTaskUseCase
 ): ViewModel() {
-    fun getLectureFlow() = observeLectureUseCase.getFlow()
+    fun getLectureLivedata() = observeLectureUseCase.getFlow().asLiveData()
 
-    fun getTasksFlow(lectureId: Int? = null) =
+    fun getTasksLivedata(lectureId: Int? = null) =
         observeTaskUseCase.getFlow().map { list ->
             if (lectureId != null) {
-                list.filter {
+                return@map list.filter {
                     it.lectureId == lectureId
                 }
+            } else {
+                return@map list
             }
-        }
+        }.asLiveData()
 }

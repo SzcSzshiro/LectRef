@@ -31,7 +31,7 @@ class Reference private constructor(
         }
 
         fun isNameOk(name: String) =
-            name.length in 3..15
+            name.length in 3..30
         fun isDescriptionOk(description: String) =
             description.length in 0..50
     }

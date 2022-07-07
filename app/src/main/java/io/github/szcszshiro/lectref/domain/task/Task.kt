@@ -28,14 +28,14 @@ class Task private constructor(
             deadLine: LocalDateTime,
             isDone: Boolean
         ): Task?{
-            if (!Lecture.isNameOk(name) || !Lecture.isDescriptionOk(description)){
+            if (!isNameOk(name) || !isDescriptionOk(description)){
                 return null
             }
             return Task(null, lectureId, name, description, deadLine, isDone)
         }
 
         fun isNameOk(name: String) =
-            name.length in 3..15
+            name.length in 3..30
         fun isDescriptionOk(description: String) =
             description.length in 0..50
     }

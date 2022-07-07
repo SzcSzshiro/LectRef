@@ -3,6 +3,7 @@ package io.github.szcszshiro.lectref.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +13,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.szcszshiro.lectref.app.ui.theme.LectRefTheme
+import io.github.szcszshiro.lectref.presentation.LectureListViewModel
 import io.github.szcszshiro.lectref.usecase.RecordLectureUseCase
 import io.github.szcszshiro.lectref.usecase.RecordReferenceUseCase
 import io.github.szcszshiro.lectref.usecase.RecordTaskUseCase
@@ -24,10 +27,11 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
+    lateinit var lectureListViewModel: LectureListViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val vm: LectureListViewModel by viewModels()
             LectRefTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(

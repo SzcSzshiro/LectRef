@@ -37,6 +37,18 @@ class TaskRepository @Inject constructor(
             )
         }
 
+    override suspend fun findFromId(id: Int): Task? =
+        dao.findFromId(id)?.let {
+            Task.reconstruct(
+                it.id!!,
+                it.lectureId,
+                it.name,
+                it.description,
+                it.deadLine,
+                it.isDone
+            )
+        }
+
     override suspend fun findFromLectureId(id: Int): List<Task> =
         dao.findFromLectureId(id).map {
             Task.reconstruct(

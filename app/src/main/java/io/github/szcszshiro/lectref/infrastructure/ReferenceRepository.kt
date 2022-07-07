@@ -36,6 +36,17 @@ class ReferenceRepository @Inject constructor(
             )
         }
 
+    override suspend fun findFromId(id: Int): Reference? =
+        dao.findFromId(id)?.let {
+            Reference.reconstruct(
+                it.id!!,
+                it.lectureId,
+                it.name,
+                it.urls,
+                it.description
+            )
+        }
+
     override suspend fun findFromLectureId(id: Int): List<Reference> =
         dao.findFromLectureId(id).map {
             Reference.reconstruct(

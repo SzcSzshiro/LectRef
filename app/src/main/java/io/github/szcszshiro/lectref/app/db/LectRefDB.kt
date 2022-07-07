@@ -43,6 +43,9 @@ interface IReferenceDao{
     @Query("SELECT * FROM reference")
     suspend fun findAll(): List<ReferenceEntity>
 
+    @Query("SELECT * FROM reference WHERE id == :id")
+    suspend fun findFromId(id: Int): ReferenceEntity?
+
     @Query("SELECT * FROM reference WHERE lecture_id == :id")
     suspend fun findFromLectureId(id: Int): List<ReferenceEntity>
 
@@ -63,6 +66,9 @@ interface ITaskDao{
 
     @Query("SELECT * FROM task")
     suspend fun findAll(): List<TaskEntity>
+
+    @Query("SELECT * FROM task WHERE id == :id")
+    suspend fun findFromId(id: Int): TaskEntity?
 
     @Query("SELECT * FROM task WHERE lecture_id == :id")
     suspend fun findFromLectureId(id: Int): List<TaskEntity>

@@ -32,7 +32,7 @@ class Lecture private constructor(
         }
 
         fun isNameOk(name: String) =
-            name.length in 3..30
+            name.length in 3..20
         fun isDescriptionOk(description: String) =
             description.length in 0..50
     }

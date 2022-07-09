@@ -11,31 +11,33 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
+import androidx.compose.ui.unit.*
 
 @Composable
 fun RoundWord(
     word: String,
     color: Color,
-    modifier: Modifier = Modifier.size(100.dp)
+    size: Int,
+    wordColor: Color,
+    modifier: Modifier = Modifier
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = modifier
+        modifier = modifier.size(size.dp)
     ) {
         Canvas(modifier = Modifier.fillMaxSize()){
             drawCircle(
                 color = color,
-                center = Offset(x = size.width / 2, y = size.height / 2),
-                radius = size.minDimension/2
+                center = Offset(x = this.size.width / 2, y = this.size.height / 2),
+                radius = this.size.minDimension/2
             )
         }
         Text(
             text = word,
-            color = Color.White
+            color = wordColor,
+            fontSize = with(LocalDensity.current) { (size*0.6).dp.toSp() }
         )
     }
 }
@@ -43,5 +45,5 @@ fun RoundWord(
 @Preview
 @Composable
 fun RoundWordPreview() {
-    RoundWord(word = "木", Color.Blue)
+    RoundWord(word = "木", Color.Blue, 50, Color.White)
 }

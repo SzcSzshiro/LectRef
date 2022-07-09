@@ -35,12 +35,14 @@ fun WeekAndTime(
         RoundWord(
             word = weekWord,
             color = weekColor,
-            modifier = Modifier.size((height*0.95).dp)
+            size = height*2,
+            Color.White
         )
         val timeText = "${time.hour}時${time.minute}分～"
         Text(
             text = timeText,
             fontSize = with(LocalDensity.current) { height.dp.toSp() },
+            color = Color.White,
             modifier = Modifier
                 .height((height*1.15).dp)
                 .offset(y = (-height*0.15).dp)

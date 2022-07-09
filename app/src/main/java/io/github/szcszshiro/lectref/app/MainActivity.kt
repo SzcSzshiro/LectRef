@@ -20,6 +20,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.szcszshiro.lectref.app.ui.theme.LectRefTheme
 import io.github.szcszshiro.lectref.presentation.LectureListViewModel
@@ -33,73 +36,41 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject lateinit var recordLectureUseCase: RecordLectureUseCase
-    @Inject lateinit var recordTaskUseCase: RecordTaskUseCase
-    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val vm: LectureListViewModel by viewModels()
             LectRefTheme {
-                // A surface container using the 'background' color from the theme
+                val navController = rememberNavController()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Column(modifier = Modifier.fillMaxSize()) {
-                        Button(onClick = {
-                            recordLectureUseCase.addLecture(
-                                "Test Lecture",
-                                "description",
-                                DayOfWeek.MONDAY,
-                                LocalTime.now().plusHours(15)
-                            )
-                        }) {
-                            Text(text = "Click to Add")
+                    NavHost(
+                        navController = navController,
+                        startDestination = "lecture_list"
+                    ){
+                        composable("lecture_list"){
+
                         }
-                        
-                        val lectureList = vm.getLectureLivedata().observeAsState()
-                        val taskList = vm.getTasksLivedata().observeAsState()
-                        lectureList.value?.forEach { lecture ->
-                            Text(
-                                text = "${lecture.id} ${lecture.name}",
-                                modifier = Modifier.clickable {
-                                    recordTaskUseCase.addTask(
-                                        lecture.id!!,
-                                        "${lecture.name}'s Test Task",
-                                        "description",
-                                        LocalDateTime.now().plusDays(10)
-                                    )
-                                }
-                            )
-                            val tasks = taskList.value?.filter { it.lectureId == lecture.id }
-                            tasks?.forEach { task ->
-                                Text(
-                                    text = "${task.id} ${task.name}",
-                                    modifier = Modifier
-                                        .padding(start = 20.dp)
-                                        .clickable {
-                                            recordTaskUseCase.removeTask(task.id!!)
-                                        }
-                                )
-                            }
+
+                        composable("lecture_detail"){
+
+                        }
+
+                        composable("edit_lecture"){
+
+                        }
+
+                        composable("edit_task"){
+
+                        }
+
+                        composable("edit_reference"){
+
                         }
                     }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    LectRefTheme {
-        Greeting("Android")
     }
 }

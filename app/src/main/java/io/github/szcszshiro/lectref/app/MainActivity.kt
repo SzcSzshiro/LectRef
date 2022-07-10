@@ -9,7 +9,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
@@ -17,6 +20,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.szcszshiro.lectref.app.ui.molecules.LectureCard
+import io.github.szcszshiro.lectref.app.ui.pages.LectureListPage
 import io.github.szcszshiro.lectref.app.ui.theme.LectRefTheme
 import io.github.szcszshiro.lectref.presentation.LectureListViewModel
 
@@ -28,38 +32,18 @@ class MainActivity : ComponentActivity() {
             LectRefTheme {
                 val navController = rememberNavController()
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     NavHost(
                         navController = navController,
                         startDestination = "lecture_list"
                     ){
                         composable("lecture_list"){
-                            val vm: LectureListViewModel by viewModels()
-                            val cardDataList = vm.lectureCardsLiveData.observeAsState()
-                            Scaffold(
-                                topBar = {
-                                    TopAppBar(
-                                        title = { Text(text = "LectRef")}
-                                    )
-                                },
-                                backgroundColor = MaterialTheme.colors.background
-                            ) {
-                                LazyColumn {
-                                    items(cardDataList.value?: emptyList()){ cardData ->
-                                        LectureCard(
-                                            lectureName = cardData.lectureName,
-                                            taskNum = cardData.taskNum,
-                                            weekValue = cardData.weekValue,
-                                            startTimeValue = cardData.startTimeValue,
-                                            onClickCard = {},
-                                            onClickTask = {},
-                                            modifier = Modifier.padding(8.dp)
-                                        )
-                                    }
-                                }
-                            }
+                            LectureListPage(
+                                onClickCard = {},
+                                onClickTask = {},
+                                onClickAdd = {}
+                            )
                         }
 
                         composable("lecture_detail"){

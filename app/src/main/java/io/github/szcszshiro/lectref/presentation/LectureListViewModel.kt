@@ -23,6 +23,7 @@ class LectureListViewModel @Inject constructor(
         combine(lectureFlow, taskFlow, ::Pair).map { pair ->
             pair.first.map { lecture ->
                 LectureCardData(
+                    lecture.id,
                     lecture.name,
                     pair.second.filter { it.lectureId ==  lecture.id}.size,
                     lecture.week.name,
@@ -33,6 +34,7 @@ class LectureListViewModel @Inject constructor(
     }
 
     data class LectureCardData(
+        val id: Int,
         val lectureName: String,
         val taskNum: Int,
         val weekValue: String,

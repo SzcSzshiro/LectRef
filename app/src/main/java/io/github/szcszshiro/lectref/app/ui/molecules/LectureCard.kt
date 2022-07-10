@@ -2,6 +2,7 @@ package io.github.szcszshiro.lectref.app.ui.molecules
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ButtonElevation
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -26,7 +27,7 @@ fun LectureCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        elevation = 2.dp,
+        elevation = 8.dp,
         modifier = modifier
     ) {
         Column(modifier = Modifier.clickable { onClickCard() }) {

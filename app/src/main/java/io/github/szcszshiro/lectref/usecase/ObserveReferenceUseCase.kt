@@ -16,7 +16,7 @@ class ObserveReferenceUseCase @Inject constructor(
                         reference.id!!,
                         reference.lectureId,
                         reference.name,
-                        reference.urls,
+                        reference.url,
                         reference.description
                     )
                 }
@@ -26,7 +26,7 @@ class ObserveReferenceUseCase @Inject constructor(
         val id: Int,
         val lectureId: Int,
         val name: String,
-        val urls: List<String>,
+        val url: String,
         val description: String
     )
 }

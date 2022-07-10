@@ -24,16 +24,13 @@ data class LectureEntity(
 )
 
 @Entity(tableName = "reference")
-@TypeConverters(
-    StringListConverter::class
-)
 data class ReferenceEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
     @ColumnInfo(name = "lecture_id")
     val lectureId: Int,
     val name: String,
-    val urls: List<String>,
+    val url: String,
     val description: String
 )
 

@@ -19,7 +19,7 @@ class ReferenceRepository @Inject constructor(
                     it.id!!,
                     it.lectureId,
                     it.name,
-                    it.urls,
+                    it.url,
                     it.description
                 )
             }
@@ -31,7 +31,7 @@ class ReferenceRepository @Inject constructor(
                 it.id!!,
                 it.lectureId,
                 it.name,
-                it.urls,
+                it.url,
                 it.description
             )
         }
@@ -42,7 +42,7 @@ class ReferenceRepository @Inject constructor(
                 it.id!!,
                 it.lectureId,
                 it.name,
-                it.urls,
+                it.url,
                 it.description
             )
         }
@@ -53,7 +53,7 @@ class ReferenceRepository @Inject constructor(
                 it.id!!,
                 it.lectureId,
                 it.name,
-                it.urls,
+                it.url,
                 it.description
             )
         }
@@ -65,7 +65,7 @@ class ReferenceRepository @Inject constructor(
                 reference.id,
                 reference.lectureId,
                 reference.name,
-                reference.urls,
+                reference.url,
                 reference.description
             )
         )
@@ -79,7 +79,7 @@ class ReferenceRepository @Inject constructor(
                 reference.id,
                 reference.lectureId,
                 reference.name,
-                reference.urls,
+                reference.url,
                 reference.description
             )
         )

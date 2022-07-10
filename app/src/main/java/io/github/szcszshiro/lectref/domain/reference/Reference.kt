@@ -6,7 +6,7 @@ class Reference private constructor(
     val id: Int?,
     val lectureId: Int,
     val name: String,
-    val urls: List<String>,
+    val url: String,
     val description: String
 ){
     companion object{
@@ -14,20 +14,20 @@ class Reference private constructor(
             id: Int,
             lectureId: Int,
             name: String,
-            urls: List<String>,
+            url: String,
             description: String
-        ) = Reference(id, lectureId, name, urls, description)
+        ) = Reference(id, lectureId, name, url, description)
 
         fun create(
             lectureId: Int,
             name: String,
-            urls: List<String>,
+            url: String,
             description: String
         ): Reference?{
             if (!isNameOk(name) || !isDescriptionOk(description)){
                 return null
             }
-            return Reference(null, lectureId, name, urls, description)
+            return Reference(null, lectureId, name, url, description)
         }
 
         fun isNameOk(name: String) =

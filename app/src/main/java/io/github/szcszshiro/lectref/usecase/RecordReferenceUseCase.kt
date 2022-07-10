@@ -12,10 +12,10 @@ class RecordReferenceUseCase @Inject constructor(
     fun addReference(
         lectureId: Int,
         name: String,
-        urls: List<String>,
+        url: String,
         description: String
     ){
-        val newReference = Reference.create(lectureId, name, urls, description)?: return
+        val newReference = Reference.create(lectureId, name, url, description)?: return
         runBlocking {
             referenceRepository.add(newReference)
         }

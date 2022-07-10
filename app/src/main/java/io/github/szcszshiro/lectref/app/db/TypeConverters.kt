@@ -34,19 +34,3 @@ class LocalDateTimeConverter{
     fun fromString(string: String): LocalDateTime =
         LocalDateTime.parse(string)?: LocalDateTime.now()
 }
-
-class StringListConverter{
-    @TypeConverter
-    fun toString(stringList: List<String>): String {
-        if (stringList.isEmpty()) return ""
-        var result = ""
-        stringList.forEach{
-            result = "$result$it&#&"
-        }
-        return result.slice(0..result.length-3)
-    }
-
-    @TypeConverter
-    fun fromString(string: String): List<String> =
-        string.split("&#&")
-}

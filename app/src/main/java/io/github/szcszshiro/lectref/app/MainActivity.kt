@@ -37,27 +37,24 @@ class MainActivity : ComponentActivity() {
                     ){
                         composable("lecture_list"){
                             val vm: LectureListViewModel by viewModels()
-                            val lectures = vm.getLectureLivedata().observeAsState()
-                            val tasks = vm.getTaskLivedata().observeAsState()
+                            val cardDataList = vm.lectureCardsLiveData.observeAsState()
                             Scaffold(
                                 topBar = {
                                     TopAppBar(
                                         title = { Text(text = "LectRef")}
                                     )
-                                }
+                                },
+                                backgroundColor = MaterialTheme.colors.background
                             ) {
                                 LazyColumn {
-                                    items(lectures.value?: emptyList()){ lecture ->
-                                        val taskNum = tasks.value?.filter {
-                                            it.lectureId == lecture.id
-                                        }?.size ?: 0
+                                    items(cardDataList.value?: emptyList()){ cardData ->
                                         LectureCard(
-                                            lectureName = lecture.name,
-                                            taskNum = taskNum,
-                                            week = lecture.week.toString(),
-                                            startTime = lecture.startTime,
-                                            onClickCard = { /*TODO*/ },
-                                            onClickTask = { /*TODO*/ },
+                                            lectureName = cardData.lectureName,
+                                            taskNum = cardData.taskNum,
+                                            weekValue = cardData.weekValue,
+                                            startTimeValue = cardData.startTimeValue,
+                                            onClickCard = {},
+                                            onClickTask = {},
                                             modifier = Modifier.padding(8.dp)
                                         )
                                     }

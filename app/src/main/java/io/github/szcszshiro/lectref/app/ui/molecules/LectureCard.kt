@@ -19,8 +19,8 @@ import java.time.LocalTime
 fun LectureCard(
     lectureName: String,
     taskNum: Int,
-    week: String,
-    startTime: LocalTime,
+    weekValue: String,
+    startTimeValue: String,
     onClickCard: () -> Unit,
     onClickTask: () -> Unit,
     modifier: Modifier = Modifier
@@ -51,14 +51,14 @@ fun LectureCard(
                     Text(text = "Task: $taskNum")
                 }
                 Text(
-                    text = week,
+                    text = weekValue,
                     textAlign = TextAlign.End,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 8.dp)
                         .weight(1f)
                 )
                 Text(
-                    text = "${startTime.hour}:${startTime.minute}~",
+                    text = startTimeValue,
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -72,8 +72,8 @@ fun LectureCardPreview() {
     LectureCard(
         lectureName = "Test Lecture",
         taskNum = 1,
-        week = "Mon",
-        startTime = LocalTime.now(),
+        weekValue = "Mon",
+        startTimeValue = "12:30~",
         onClickCard = {},
         onClickTask = {},
         modifier = Modifier

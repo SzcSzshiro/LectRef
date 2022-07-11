@@ -15,17 +15,18 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ReferenceCard(
+    modifier: Modifier = Modifier,
     name: String,
     description: String,
     url: String,
     onClickOpen: () -> Unit,
-    modifier: Modifier = Modifier
+    onClickEdit: () -> Unit,
+    onClickDelete: () -> Unit
 ) {
     var isExpanded by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
     Card(
-        elevation = 8.dp,
         modifier = modifier
             .padding(8.dp)
             .clickable {
@@ -44,17 +45,6 @@ fun ReferenceCard(
                 modifier = Modifier
                     .fillMaxWidth()
             )
-            if (isExpanded){
-                Text(
-                    text = description,
-                    fontSize = 15.sp,
-                    modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
-                )
-                Text(
-                    text = url,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-            }
             Row(
                 horizontalArrangement = Arrangement.End,
                 modifier = Modifier
@@ -70,6 +60,27 @@ fun ReferenceCard(
                     )
                 }
             }
+            if (isExpanded){
+                Text(
+                    text = description,
+                    fontSize = 15.sp,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    TextButton(onClick = onClickEdit) {
+                        Text(text = "Edit")
+                    }
+                    TextButton(
+                        onClick = onClickDelete,
+                        modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+                    ) {
+                        Text(text = "Delete")
+                    }
+                }
+            }
         }
     }
 }
@@ -81,6 +92,8 @@ fun ReferenceCardPreview() {
         name = "Test Reference",
         description = "This is Test Reference",
         url = "https://example.com",
-        onClickOpen = {}
+        onClickOpen = {},
+        onClickEdit = {},
+        onClickDelete = {}
     )
 }

@@ -17,18 +17,19 @@ import java.time.LocalDateTime
 
 @Composable
 fun TaskCard(
+    modifier: Modifier = Modifier,
     name: String,
     description: String,
     deadLineValue: String,
     isDone: Boolean,
     onClickFinish: () -> Unit,
-    modifier: Modifier = Modifier
+    onClickEdit: () -> Unit,
+    onClickDelete: () -> Unit
 ) {
     var isExpanded by remember {
-        mutableStateOf(false)
+        mutableStateOf(true)
     }
     Card(
-        elevation = 8.dp,
         modifier = modifier
             .padding(8.dp)
             .clickable {
@@ -37,7 +38,9 @@ fun TaskCard(
             .animateContentSize()
 
     ) {
-        Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp).padding(8.dp)) {
+        Column(modifier = Modifier
+            .padding(start = 8.dp, end = 8.dp)
+            .padding(8.dp)) {
             Text(
                 text = name,
                 fontSize = 30.sp,
@@ -45,13 +48,6 @@ fun TaskCard(
                 modifier = Modifier
                     .fillMaxWidth()
             )
-            if (isExpanded){
-                Text(
-                    text = description,
-                    fontSize = 15.sp,
-                    modifier = Modifier.padding(top = 8.dp, bottom = 8.dp)
-                )
-            }
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -76,6 +72,27 @@ fun TaskCard(
                     )
                 }
             }
+            if (isExpanded){
+                Text(
+                    text = description,
+                    fontSize = 15.sp,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    TextButton(onClick = onClickEdit) {
+                        Text(text = "Edit")
+                    }
+                    TextButton(
+                        onClick = onClickDelete,
+                        modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+                    ) {
+                        Text(text = "Delete")
+                    }
+                }
+            }
         }
     }
 }
@@ -92,6 +109,8 @@ fun TaskCardPreview() {
         description = "This is Test",
         deadLineValue = "~4/1 12:30",
         isDone = isDone,
-        onClickFinish = { isDone = !isDone}
+        onClickFinish = { isDone = !isDone},
+        onClickEdit = {},
+        onClickDelete = {}
     )
 }

@@ -66,7 +66,7 @@ fun ReferenceCard(
                 ) {
                     Text(
                         text = "Open",
-                        fontSize = 20.sp
+                        fontSize = 15.sp
                     )
                 }
             }

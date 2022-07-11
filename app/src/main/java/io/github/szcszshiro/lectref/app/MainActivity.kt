@@ -23,9 +23,15 @@ import io.github.szcszshiro.lectref.app.ui.molecules.LectureCard
 import io.github.szcszshiro.lectref.app.ui.pages.LectureListPage
 import io.github.szcszshiro.lectref.app.ui.theme.LectRefTheme
 import io.github.szcszshiro.lectref.presentation.LectureListViewModel
+import io.github.szcszshiro.lectref.usecase.RecordLectureUseCase
+import java.time.DayOfWeek
+import java.time.LocalTime
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @Inject lateinit var recordLectureUseCase: RecordLectureUseCase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -42,7 +48,14 @@ class MainActivity : ComponentActivity() {
                             LectureListPage(
                                 onClickCard = {},
                                 onClickTask = {},
-                                onClickAdd = {}
+                                onClickAdd = {
+                                    recordLectureUseCase.addLecture(
+                                        "Example Lecture",
+                                        "This is example lecture.\nFor Test.",
+                                        DayOfWeek.MONDAY,
+                                        LocalTime.now()
+                                    )
+                                }
                             )
                         }
 

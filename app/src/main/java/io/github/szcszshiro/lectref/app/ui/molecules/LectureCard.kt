@@ -29,37 +29,43 @@ fun LectureCard(
     Card(
         elevation = 8.dp,
         modifier = modifier
+            .padding(8.dp)
+            .clickable { onClickCard() }
+
     ) {
-        Column(modifier = Modifier.clickable { onClickCard() }) {
+        Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp).padding(8.dp)) {
             Text(
                 text = lectureName,
-                fontSize = 25.sp,
+                fontSize = 30.sp,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
-                    .padding(8.dp)
                     .fillMaxWidth()
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .padding(start = 8.dp, end = 8.dp)
                     .fillMaxWidth()
             ) {
                 TextButton(
                     onClick = onClickTask,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.wrapContentWidth()
                 ) {
-                    Text(text = "Task: $taskNum")
+                    Text(
+                        text = "Task: $taskNum",
+                        fontSize = 15.sp
+                    )
                 }
                 Text(
                     text = weekValue,
                     textAlign = TextAlign.End,
+                    fontSize = 15.sp,
                     modifier = Modifier
                         .padding(start = 8.dp, end = 8.dp)
                         .weight(1f)
                 )
                 Text(
                     text = startTimeValue,
+                    fontSize = 15.sp,
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -78,7 +84,5 @@ fun LectureCardPreview() {
         onClickCard = {},
         onClickTask = {},
         modifier = Modifier
-            .width(300.dp)
-            .wrapContentHeight()
     )
 }

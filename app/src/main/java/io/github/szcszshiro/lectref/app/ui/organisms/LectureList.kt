@@ -1,5 +1,7 @@
 package io.github.szcszshiro.lectref.app.ui.organisms
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -26,6 +28,8 @@ fun LectureList(
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
+            .fillMaxWidth()
+            .animateContentSize()
     ) {
         items(lectureCardDataList){ cardData ->
             LectureCard(

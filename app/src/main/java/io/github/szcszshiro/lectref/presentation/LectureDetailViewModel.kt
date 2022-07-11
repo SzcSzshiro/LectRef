@@ -1,12 +1,14 @@
 package io.github.szcszshiro.lectref.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.szcszshiro.lectref.usecase.ObserveLectureUseCase
 import io.github.szcszshiro.lectref.usecase.ObserveReferenceUseCase
 import io.github.szcszshiro.lectref.usecase.ObserveTaskUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
@@ -16,31 +18,31 @@ class LectureDetailViewModel @Inject constructor(
     private val observeTaskUseCase: ObserveTaskUseCase,
     private val observeReferenceUseCase: ObserveReferenceUseCase
 ): ViewModel() {
-    @Throws()
-    fun getLectureDetailLiveData(lectureId: Int): Flow<LectureDetailData> =
-        combine(
-            observeLectureUseCase.getFlow(),
-            observeTaskUseCase.getFlow(),
-            observeReferenceUseCase.getFlow()
-        ){ lectures, tasks, references ->
-            val targetLecture = lectures.first { it.id == lectureId }
-            val targetTasks = kotlin.runCatching {
-                tasks.filter { it.lectureId == lectureId }
-            }.getOrDefault(emptyList())
-            val targetReferences = kotlin.runCatching {
-                references.filter { it.lectureId == lectureId }
-            }.getOrDefault(emptyList())
+    fun getLectureDetailLiveDataV2(id: Int) =
+        observeLectureUseCase
+            .getFlow()
+            .map { list ->
+                list.first { it.id == id }
+            }
+            .asLiveData()
 
-            LectureDetailData(
-                targetLecture,
-                targetTasks,
-                targetReferences
-            )
-        }
+    fun getTasksLiveData(lectureId: Int) =
+        observeTaskUseCase
+            .getFlow()
+            .map{ list ->
+                list.filter {
+                    it.lectureId == lectureId
+                }
+            }
+            .asLiveData()
 
-    data class LectureDetailData(
-        val lectureDTO: ObserveLectureUseCase.LectureDTO,
-        val taskDTOs: List<ObserveTaskUseCase.TaskDTO>,
-        val referenceDTOs: List<ObserveReferenceUseCase.ReferenceDTO>
-    )
+    fun getReferencesLiveData(lectureId: Int) =
+        observeReferenceUseCase
+            .getFlow()
+            .map{ list ->
+                list.filter {
+                    it.lectureId == lectureId
+                }
+            }
+            .asLiveData()
 }

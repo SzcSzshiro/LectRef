@@ -24,9 +24,10 @@ fun ReferenceCard(
     onClickDelete: () -> Unit
 ) {
     var isExpanded by remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     Card(
+        elevation = 8.dp,
         modifier = modifier
             .padding(8.dp)
             .clickable {

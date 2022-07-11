@@ -17,13 +17,12 @@ import java.time.LocalTime
 
 @Composable
 fun LectureData(
-    lectureId: Int,
     name: String,
     description: String,
     weekValue: String,
     startTimeValue: String,
-    onPushEdit: (id: Int) -> Unit,
-    onPushDelete: (id: Int) -> Unit,
+    onPushEdit: () -> Unit,
+    onPushDelete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -61,7 +60,7 @@ fun LectureData(
             modifier = Modifier.fillMaxWidth()
         ) {
             FloatingActionButton(
-                onClick = { onPushEdit(lectureId) },
+                onClick = { onPushEdit() },
                 modifier = Modifier
                     .padding(8.dp)
                     .size(40.dp)
@@ -72,7 +71,7 @@ fun LectureData(
                 )
             }
             FloatingActionButton(
-                onClick = { onPushDelete(lectureId) },
+                onClick = { onPushDelete() },
                 modifier = Modifier
                     .padding(8.dp)
                     .size(40.dp)
@@ -88,7 +87,7 @@ fun LectureData(
 
 @Preview
 @Composable
-fun LectureDetailPreview() {
+fun LectureDataPreview() {
     val now = LocalTime.now()
     Scaffold(
         topBar = {
@@ -102,7 +101,6 @@ fun LectureDetailPreview() {
         }
     ) {
         LectureData(
-            lectureId = 1,
             name = "Sample Lecture",
             description = "This is Sample.",
             weekValue = DayOfWeek.MONDAY.name,

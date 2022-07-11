@@ -18,7 +18,7 @@ class LectureDetailViewModel @Inject constructor(
     private val observeTaskUseCase: ObserveTaskUseCase,
     private val observeReferenceUseCase: ObserveReferenceUseCase
 ): ViewModel() {
-    fun getLectureDetailLiveDataV2(id: Int) =
+    fun getLectureDetailLiveData(id: Int) =
         observeLectureUseCase
             .getFlow()
             .map { list ->

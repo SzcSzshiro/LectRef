@@ -1,6 +1,5 @@
 package io.github.szcszshiro.lectref.app.ui.pages
 
-import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -13,15 +12,17 @@ fun LectureListPage(
     onClickCard: (lectureId: Int) -> Unit,
     onClickTask: (lectureId: Int) -> Unit,
     onClickAdd: () -> Unit
-){
+) {
     val vm: LectureListViewModel = hiltViewModel()
     val cardDataList = vm.lectureCardsLiveData.observeAsState()
-    LectureListTemplate {
-        LectureList(
-            lectureCardDataList = cardDataList.value?: emptyList(),
-            onClickCard,
-            onClickTask,
-            onClickAdd
-        )
-    }
+    LectureListTemplate(
+        contents = {
+            LectureList(
+                lectureCardDataList = cardDataList.value ?: emptyList(),
+                onClickCard,
+                onClickTask
+            )
+        },
+        onClickAdd = onClickAdd
+    )
 }

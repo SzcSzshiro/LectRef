@@ -23,7 +23,6 @@ fun LectureList(
     lectureCardDataList: List<LectureListViewModel.LectureCardData>,
     onClickCard: (lectureId: Int) -> Unit,
     onClickTask: (lectureId: Int) -> Unit,
-    onClickAdd: () -> Unit,
     modifier: Modifier = Modifier
 ){
     LazyColumn(
@@ -35,7 +34,7 @@ fun LectureList(
         if (lectureCardDataList.isEmpty()){
             item {
                 Text(
-                    text = "Now Loading...",
+                    text = "Nothing is There",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -52,18 +51,6 @@ fun LectureList(
                 onClickCard = { onClickCard(cardData.id) },
                 onClickTask = { onClickTask(cardData.id) }
             )
-        }
-        item {
-            FloatingActionButton(
-                onClick = { onClickAdd() },
-                elevation = FloatingActionButtonDefaults.elevation(),
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "Push to add lecture."
-                )
-            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package io.github.szcszshiro.lectref.app.ui.organisms
+package io.github.szcszshiro.lectref.app.ui.molecules
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -34,7 +34,7 @@ fun LectureData(
             modifier = Modifier
                 .padding(8.dp)
                 .background(Color.Gray)
-                .height((0.5).dp)
+                .height((0.8).dp)
                 .fillMaxWidth()
         )
         Text(

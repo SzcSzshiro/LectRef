@@ -30,13 +30,13 @@ fun TaskCard(
         mutableStateOf(false)
     }
     Card(
-        elevation = 8.dp,
+        elevation = 4.dp,
         modifier = modifier
-            .padding(8.dp)
+            .animateContentSize()
+            .padding(4.dp)
             .clickable {
                 isExpanded = !isExpanded
             }
-            .animateContentSize()
 
     ) {
         Column(modifier = Modifier
@@ -87,7 +87,10 @@ fun TaskCard(
                         Text(text = "Edit")
                     }
                     TextButton(
-                        onClick = onClickDelete,
+                        onClick = {
+                            isExpanded = false
+                            onClickDelete()
+                    },
                         modifier = Modifier.padding(start = 8.dp, end = 8.dp)
                     ) {
                         Text(text = "Delete")

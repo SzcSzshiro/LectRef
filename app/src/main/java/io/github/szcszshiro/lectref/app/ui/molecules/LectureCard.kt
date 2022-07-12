@@ -27,9 +27,9 @@ fun LectureCard(
     modifier: Modifier = Modifier
 ) {
     Card(
-        elevation = 8.dp,
+        elevation = 4.dp,
         modifier = modifier
-            .padding(8.dp)
+            .padding(4.dp)
             .clickable { onClickCard() }
 
     ) {

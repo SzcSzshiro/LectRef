@@ -19,6 +19,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.szcszshiro.lectref.app.ui.organisms.LectureDetail
+import io.github.szcszshiro.lectref.app.ui.pages.LectureDetailPage
 import io.github.szcszshiro.lectref.app.ui.pages.LectureListPage
 import io.github.szcszshiro.lectref.app.ui.theme.LectRefTheme
 import io.github.szcszshiro.lectref.presentation.LectureDetailViewModel
@@ -70,48 +71,33 @@ class MainActivity : ComponentActivity() {
                             arguments = listOf(navArgument("targetId"){type = NavType.IntType})
                         ){
                             val targetId = navController.currentBackStackEntry?.arguments?.getInt("targetId")?: -1
-                            val vm: LectureDetailViewModel = hiltViewModel()
-                            val lecture = vm.getLectureDetailLiveData(targetId).observeAsState()
-                            val tasks = vm.getTasksLiveData(targetId).observeAsState()
-                            val references = vm.getReferencesLiveData(targetId).observeAsState()
-
-                            Scaffold(
-                                topBar = {
-                                    TopAppBar(
-                                        title = { Text("LectRef") }
-                                    )
-                                }
-                            ) {
-                                LectureDetail(
-                                    lectureDTO = lecture.value,
-                                    taskDTOs = tasks.value?: emptyList(),
-                                    referenceDTOs = references.value?: emptyList(),
-                                    onClickEditLecture = {},
-                                    onClickDeleteLecture = {},
-                                    onClickAddTask = {
+                            LectureDetailPage(
+                                lectureId = targetId,
+                                backToList = {
+                                    navController.navigate("lecture_list")
+                                },
+                                editLecture = {},
+                                editTask = {
+                                    if (it == null){
                                         recordTaskUseCase.addTask(
                                             targetId,
-                                            "Test Task",
-                                            "Test Task of $targetId Lecture",
-                                            LocalDateTime.now().plusDays(1)
+                                            "Example Task",
+                                            "Example task of $targetId",
+                                            LocalDateTime.now().plusDays(3)
                                         )
-                                    },
-                                    onClickFinishTask = {},
-                                    onClickEditTask = {},
-                                    onClickDeleteTask = {},
-                                    onClickAddReference = {
+                                    }
+                                },
+                                editReference = {
+                                    if (it == null){
                                         recordReferenceUseCase.addReference(
                                             targetId,
-                                            "Test Reference",
+                                            "Example Reference",
                                             "https://example.com",
-                                            "Test Reference of $targetId Lecture."
+                                            "Example reference of $targetId"
                                         )
-                                    },
-                                    onClickOpenReference = {},
-                                    onClickEditReference = {},
-                                    onClickDeleteReference = {}
-                                )
-                            }
+                                    }
+                                }
+                            )
                         }
 
                         composable("edit_lecture"){

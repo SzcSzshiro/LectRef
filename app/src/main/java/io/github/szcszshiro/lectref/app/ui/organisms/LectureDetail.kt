@@ -1,16 +1,19 @@
 package io.github.szcszshiro.lectref.app.ui.organisms
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import io.github.szcszshiro.lectref.app.ui.molecules.LectureData
 import io.github.szcszshiro.lectref.app.ui.molecules.ReferenceCard
 import io.github.szcszshiro.lectref.app.ui.molecules.TaskCard
 import io.github.szcszshiro.lectref.usecase.ObserveLectureUseCase
@@ -45,22 +48,51 @@ fun LectureDetail(
             LectureData(
                 name = lectureDTO.name,
                 description = lectureDTO.description,
-                weekValue = "${lectureDTO.week.value}",
+                weekValue = lectureDTO.week.name,
                 startTimeValue = "${lectureDTO.startTime.hour}:${lectureDTO.startTime.minute}~",
                 onPushEdit = onClickEditLecture,
                 onPushDelete = onClickDeleteLecture
             )
         }
         item {
-            Row() {
-                Text(text = "Task")
-                FloatingActionButton(onClick = onClickAddTask) {
+            Spacer(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.Gray)
+                    .height((0.8).dp)
+                    .fillMaxWidth()
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+
+            ) {
+                Text(
+                    text = "Task",
+                    fontSize = 30.sp,
+                    modifier = Modifier.weight(1f)
+                )
+                FloatingActionButton(
+                    onClick = onClickAddTask,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .size(40.dp)
+                ) {
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = "Push to Add Task."
                     )
                 }
             }
+            Spacer(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.Gray)
+                    .height((0.8).dp)
+                    .fillMaxWidth()
+            )
         }
         items(taskDTOs){ taskDTO ->
             TaskCard(
@@ -76,20 +108,47 @@ fun LectureDetail(
                 },
                 onClickDelete = {
                     onClickDeleteTask(taskDTO.id)
-                },
-                modifier = Modifier.padding(8.dp)
+                }
             )
         }
         item {
-            Row() {
-                Text(text = "Reference")
-                FloatingActionButton(onClick = onClickAddReference) {
+            Spacer(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.Gray)
+                    .height((0.8).dp)
+                    .fillMaxWidth()
+            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+            ) {
+                Text(
+                    text = "Reference",
+                    fontSize = 30.sp,
+                    modifier = Modifier.weight(1f)
+                )
+                FloatingActionButton(
+                    onClick = onClickAddReference,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .size(40.dp)
+                ) {
                     Icon(
                         imageVector = Icons.Filled.Add,
                         contentDescription = "Push to Add Reference."
                     )
                 }
             }
+            Spacer(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.Gray)
+                    .height((0.8).dp)
+                    .fillMaxWidth()
+            )
         }
         items(referenceDTOs){ referenceDTO ->
             ReferenceCard(

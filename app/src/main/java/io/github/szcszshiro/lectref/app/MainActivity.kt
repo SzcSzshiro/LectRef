@@ -1,6 +1,7 @@
 package io.github.szcszshiro.lectref.app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +20,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import dagger.hilt.android.AndroidEntryPoint
 import io.github.szcszshiro.lectref.app.ui.organisms.LectureDetail
+import io.github.szcszshiro.lectref.app.ui.pages.EditLecturePage
 import io.github.szcszshiro.lectref.app.ui.pages.LectureDetailPage
 import io.github.szcszshiro.lectref.app.ui.pages.LectureListPage
 import io.github.szcszshiro.lectref.app.ui.theme.LectRefTheme
@@ -56,29 +58,28 @@ class MainActivity : ComponentActivity() {
                                 },
                                 onClickTask = {},
                                 onClickAdd = {
-                                    recordLectureUseCase.addLecture(
-                                        "Example Lecture",
-                                        "This is example lecture.\nFor Test.",
-                                        DayOfWeek.MONDAY,
-                                        LocalTime.now()
-                                    )
+                                    navController.navigate("edit_lecture")
                                 }
                             )
                         }
 
                         composable(
                             "lecture_detail/{targetId}",
-                            arguments = listOf(navArgument("targetId"){type = NavType.IntType})
-                        ){
-                            val targetId = navController.currentBackStackEntry?.arguments?.getInt("targetId")?: -1
+                            arguments = listOf(navArgument("targetId"){
+                                type = NavType.IntType
+                            })
+                        ){ it ->
+                            val targetId = it.arguments?.getInt("targetId")?: -1
                             LectureDetailPage(
                                 lectureId = targetId,
                                 backToList = {
                                     navController.navigate("lecture_list")
                                 },
-                                editLecture = {},
-                                editTask = {
-                                    if (it == null){
+                                editLecture = {
+                                    navController.navigate("edit_lecture?lectureId=$targetId")
+                                },
+                                editTask = { id ->
+                                    if (id == null){
                                         recordTaskUseCase.addTask(
                                             targetId,
                                             "Example Task",
@@ -100,8 +101,26 @@ class MainActivity : ComponentActivity() {
                             )
                         }
 
-                        composable("edit_lecture"){
-
+                        composable(
+                            "edit_lecture?lectureId={lectureId}",
+                            arguments = listOf(navArgument("lectureId"){
+                                type = NavType.StringType
+                                nullable = true
+                                defaultValue = null
+                            })
+                        ){
+                            val lectureId = it.arguments?.getString("lectureId")?.toInt()
+                            EditLecturePage(
+                                lectureId = lectureId,
+                                onBack = {
+                                    navController.navigate(
+                                        if (lectureId == null)
+                                            "lecture_list"
+                                        else
+                                            "lecture_detail/$lectureId"
+                                    )
+                                }
+                            )
                         }
 
                         composable("edit_task"){

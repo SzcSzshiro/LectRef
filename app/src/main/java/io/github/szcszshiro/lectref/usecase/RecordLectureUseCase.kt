@@ -44,4 +44,16 @@ class RecordLectureUseCase @Inject constructor(
             lectureRepository.remove(target)
         }
     }
+
+    fun editLecture(
+        id: Int,
+        name: String?,
+        description: String?,
+        week: DayOfWeek?,
+        startTime: LocalTime?
+    ){
+        runBlocking {
+            lectureRepository.update(id, name, description, week, startTime)
+        }
+    }
 }

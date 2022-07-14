@@ -24,6 +24,20 @@ class ObserveLectureUseCase @Inject constructor(
                 }
             }
 
+    suspend fun findFromId(id: Int) =
+        lectureRepository
+            .findFromId(id)
+            .let { lecture ->
+                if (lecture == null) return@let null
+                return@let LectureDTO(
+                    lecture.id!!,
+                    lecture.name,
+                    lecture.description,
+                    lecture.week,
+                    lecture.startTime
+                )
+            }
+
     data class LectureDTO(
         val id: Int,
         val name: String,

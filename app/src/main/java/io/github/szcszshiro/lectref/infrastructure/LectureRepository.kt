@@ -6,6 +6,8 @@ import io.github.szcszshiro.lectref.domain.lecture.ILectureRepository
 import io.github.szcszshiro.lectref.domain.lecture.Lecture
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.DayOfWeek
+import java.time.LocalTime
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
@@ -75,15 +77,24 @@ class LectureRepository @Inject constructor(
     }
 
     @Throws(IllegalArgumentException::class)
-    override suspend fun update(lecture: Lecture) {
-        require(lecture.id != null)
+    override suspend fun update(
+        id: Int,
+        newName: String?,
+        newDescription: String?,
+        newWeek: DayOfWeek?,
+        newStartTime: LocalTime?
+    ) {
+        val target = findFromId(id)
+        require(target != null)
+        require(newName?.let { Lecture.isNameOk(it) }?: true)
+        require(newDescription?.let { Lecture.isDescriptionOk(it) }?: true)
         dao.update(
             LectureEntity(
-                lecture.id,
-                lecture.name,
-                lecture.description,
-                lecture.week,
-                lecture.startTime
+                id,
+                newName?: target.name,
+                newDescription?: target.description,
+                newWeek?: target.week,
+                newStartTime?: target.startTime
             )
         )
     }

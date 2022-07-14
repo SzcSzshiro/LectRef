@@ -42,8 +42,8 @@ fun LectureEdit(
     MaterialDialog(
         dialogState = dialogState,
         buttons = {
-            positiveButton("select")
-            negativeButton("cancel")
+            positiveButton("Ok")
+            negativeButton("Cancel")
         }
     ) {
         timepicker(
@@ -98,13 +98,13 @@ fun LectureEdit(
         )
         Row {
             TextButton(onClick = onPushCancel) {
-                Text(text = "cancel")
+                Text(text = "Cancel")
             }
             Button(
                 onClick = onPushOk,
                 modifier = Modifier.padding(start = 8.dp)
             ) {
-                Text(text = "ok")
+                Text(text = "Ok")
             }
         }
     }

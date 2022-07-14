@@ -1,10 +1,8 @@
 package io.github.szcszshiro.lectref.app.ui.pages
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,6 +20,107 @@ fun LectureDetailPage(
     editReference: (id: Int?) -> Unit
 ) {
     val vm: LectureDetailViewModel = hiltViewModel()
+    var lectureDialogIsOpen by remember {
+        mutableStateOf(false)
+    }
+    var deleteLectureId by remember {
+        mutableStateOf(-1)
+    }
+    var taskDialogIsOpen by remember {
+        mutableStateOf(false)
+    }
+    var deleteTaskId by remember {
+        mutableStateOf(-1)
+    }
+    var referenceDialogIsOpen by remember {
+        mutableStateOf(false)
+    }
+    var deleteReferenceId by remember {
+        mutableStateOf(-1)
+    }
+    if (lectureDialogIsOpen){
+        AlertDialog(
+            onDismissRequest = {
+                lectureDialogIsOpen = false
+            },
+            confirmButton = {
+                Button(onClick = {
+                    lectureDialogIsOpen = false
+                    backToList()
+                    runBlocking {
+                        vm.deleteLecture(deleteLectureId)
+                    }
+                }) {
+                    Text(text = "Ok")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    lectureDialogIsOpen = false
+                }) {
+                    Text(text = "Cancel")
+                }
+            },
+            text = {
+                Text(text = "Delete the Lecture Data?")
+            }
+        )
+    }
+    if (taskDialogIsOpen){
+        AlertDialog(
+            onDismissRequest = {
+                taskDialogIsOpen = false
+            },
+            confirmButton = {
+                Button(onClick = {
+                    taskDialogIsOpen = false
+                    runBlocking {
+                        vm.deleteTask(deleteTaskId)
+                    }
+                }) {
+                    Text(text = "Ok")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    taskDialogIsOpen = false
+                }) {
+                    Text(text = "Cancel")
+                }
+            },
+            text = {
+                Text(text = "Delete the Reference Data?")
+            }
+        )
+    }
+    if (referenceDialogIsOpen){
+        AlertDialog(
+            onDismissRequest = {
+                referenceDialogIsOpen  = false
+            },
+            confirmButton = {
+                Button(onClick = {
+                    referenceDialogIsOpen  = false
+                    runBlocking {
+                        vm.deleteReference(deleteReferenceId)
+                    }
+                }) {
+                    Text(text = "Ok")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    referenceDialogIsOpen  = false
+                }) {
+                    Text(text = "Cancel")
+                }
+            },
+            text = {
+                Text(text = "Delete the Task Data?")
+            }
+        )
+    }
+
     LectureDetailTemplate(
         contents = {
             val lecture = vm.getLectureDetailLiveData(lectureId).observeAsState()
@@ -36,30 +135,21 @@ fun LectureDetailPage(
                     editLecture()
                 },
                 onClickDeleteLecture = {
-                    // TODO: 警告画面表示
-                    backToList()
-                    runBlocking {
-                        lecture.value?.let {
-                            vm.deleteLecture(it.id)
-                        }
-                    }
+                    deleteLectureId = lecture.value?.id?: -1
+                    lectureDialogIsOpen = true
                 },
                 onClickAddTask = {
                     editTask(null)
                 },
                 onClickFinishTask = {
-                    runBlocking {
-
-                    }
+                    // TODO: タスクの完了処理の実装 
                 },
                 onClickEditTask = {
                     editTask(it)
                 },
                 onClickDeleteTask = {
-                    // TODO: 警告画面表示
-                    runBlocking {
-                        vm.deleteTask(it)
-                    }
+                    deleteTaskId = it
+                    taskDialogIsOpen = true
                 },
                 onClickAddReference = {
                     editReference(null)
@@ -71,10 +161,8 @@ fun LectureDetailPage(
                     editReference(it)
                 },
                 onClickDeleteReference = {
-                    // TODO: 警告画面表示
-                    runBlocking {
-                        vm.deleteReference(it)
-                    }
+                    deleteReferenceId = it
+                    referenceDialogIsOpen = true
                 },
                 modifier = Modifier
                     .fillMaxSize()

@@ -64,7 +64,7 @@ fun EditLecturePage(
                 }
             },
             text = {
-                Text(text = "Cancel this edit?")
+                Text(text = "Cancel this Editing?")
             }
         )
     }

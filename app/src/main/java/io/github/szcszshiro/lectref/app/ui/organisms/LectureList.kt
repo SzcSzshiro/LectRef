@@ -34,7 +34,7 @@ fun LectureList(
         if (lectureCardDataList.isEmpty()){
             item {
                 Text(
-                    text = "Nothing is There",
+                    text = "Loading",
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth()
                 )

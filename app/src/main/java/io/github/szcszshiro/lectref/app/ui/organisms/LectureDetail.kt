@@ -38,7 +38,7 @@ fun LectureDetail(
     onClickDeleteReference: (referenceId: Int) -> Unit
 ) {
     if (lectureDTO == null){
-        Text(text = "読み込み中")
+        Text(text = "Loading")
         return
     }
     LazyColumn(

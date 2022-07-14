@@ -49,7 +49,7 @@ fun LectureDetail(
                 name = lectureDTO.name,
                 description = lectureDTO.description,
                 weekValue = lectureDTO.week.name,
-                startTimeValue = "${lectureDTO.startTime.hour}:${lectureDTO.startTime.minute}~",
+                startTimeValue = "${lectureDTO.startTime.hour}:${lectureDTO.startTime.minute.toString().padStart(2, '0')}~",
                 onPushEdit = onClickEditLecture,
                 onPushDelete = onClickDeleteLecture
             )
@@ -98,7 +98,7 @@ fun LectureDetail(
             TaskCard(
                 name = taskDTO.name,
                 description = taskDTO.description,
-                deadLineValue = "~${taskDTO.deadLine.hour}:${taskDTO.deadLine.minute}",
+                deadLineValue = "~${taskDTO.deadLine.hour}:${taskDTO.deadLine.minute.toString().padStart(2, '0')}",
                 isDone = taskDTO.isDone,
                 onClickFinish = {
                     onClickFinishTask(taskDTO.id)                

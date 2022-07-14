@@ -90,7 +90,7 @@ fun LectureEdit(
             }
         }
         Text(
-            text = "${startTime.hour}:${startTime.minute}~",
+            text = "${startTime.hour}:${startTime.minute.toString().padStart(2, '0')}~",
             fontSize = 20.sp,
             modifier = Modifier.clickable {
                 dialogState.show()

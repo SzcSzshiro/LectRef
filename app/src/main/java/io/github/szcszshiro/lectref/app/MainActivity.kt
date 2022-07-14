@@ -113,12 +113,7 @@ class MainActivity : ComponentActivity() {
                             EditLecturePage(
                                 lectureId = lectureId,
                                 onBack = {
-                                    navController.navigate(
-                                        if (lectureId == null)
-                                            "lecture_list"
-                                        else
-                                            "lecture_detail/$lectureId"
-                                    )
+                                    navController.popBackStack()
                                 }
                             )
                         }

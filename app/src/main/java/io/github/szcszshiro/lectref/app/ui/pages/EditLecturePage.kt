@@ -2,6 +2,10 @@ package io.github.szcszshiro.lectref.app.ui.pages
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,6 +41,33 @@ fun EditLecturePage(
     var startTime by remember {
         mutableStateOf(target?.startTime?: LocalTime.now())
     }
+    var showDialog by remember {
+        mutableStateOf(false)
+    }
+
+    if (showDialog){
+        AlertDialog(
+            onDismissRequest = {
+                showDialog = false
+            },
+            confirmButton = {
+                Button(onClick = {
+                    showDialog = false
+                    onBack()
+                }) {
+                    Text(text = "Ok")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDialog = false }) {
+                    Text(text = "Cancel")
+                }
+            },
+            text = {
+                Text(text = "Cancel this edit?")
+            }
+        )
+    }
 
     EditTemplate {
         LectureEdit(
@@ -48,7 +79,9 @@ fun EditLecturePage(
             onChangeDescription = { description = it },
             onChangeWeek = { week = it },
             onChangeStartTime = { startTime = it },
-            onPushCancel = onBack,
+            onPushCancel = {
+                showDialog = true
+            },
             onPushOk = {
                 if (!vm.checkIsNameOk(name)) {
                     Toast.makeText(context, "Invalid Name", Toast.LENGTH_SHORT).show()

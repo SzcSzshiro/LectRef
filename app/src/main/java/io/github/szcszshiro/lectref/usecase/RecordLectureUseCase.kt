@@ -56,4 +56,8 @@ class RecordLectureUseCase @Inject constructor(
             lectureRepository.update(id, name, description, week, startTime)
         }
     }
+
+    fun checkIsNameOk(newName: String) = Lecture.isNameOk(newName)
+
+    fun checkIsDescriptionOk(newDescription: String) = Lecture.isDescriptionOk(newDescription)
 }

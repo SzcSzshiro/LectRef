@@ -34,4 +34,9 @@ class EditLectureViewModel @Inject constructor(
     ){
         recordLectureUseCase.editLecture(id, name, description, week, startTime)
     }
+
+    fun checkIsNameOk(newName: String) = recordLectureUseCase.checkIsNameOk(newName)
+
+    fun checkIsDescriptionOk(newDescription: String) = recordLectureUseCase.checkIsDescriptionOk(newDescription)
+
 }

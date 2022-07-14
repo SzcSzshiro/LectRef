@@ -1,7 +1,9 @@
 package io.github.szcszshiro.lectref.app.ui.pages
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.szcszshiro.lectref.app.ui.organisms.LectureEdit
 import io.github.szcszshiro.lectref.app.ui.templates.EditTemplate
@@ -17,6 +19,7 @@ fun EditLecturePage(
     onBack: () -> Unit
 ) {
     val vm: EditLectureViewModel = hiltViewModel()
+    val context = LocalContext.current
     val target: ObserveLectureUseCase.LectureDTO?
     runBlocking {
         target = vm.getLectureDTO(lectureId?: -1)
@@ -47,6 +50,14 @@ fun EditLecturePage(
             onChangeStartTime = { startTime = it },
             onPushCancel = onBack,
             onPushOk = {
+                if (!vm.checkIsNameOk(name)) {
+                    Toast.makeText(context, "Invalid Name", Toast.LENGTH_SHORT).show()
+                    return@LectureEdit
+                }
+                if (!vm.checkIsDescriptionOk(description)) {
+                    Toast.makeText(context, "Invalid Description", Toast.LENGTH_SHORT).show()
+                    return@LectureEdit
+                }
                 onBack()
                 if (lectureId == null || target == null){
                     vm.addLecture(name, description, week, startTime)

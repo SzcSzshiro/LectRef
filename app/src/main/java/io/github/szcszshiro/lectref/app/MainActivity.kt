@@ -56,7 +56,9 @@ class MainActivity : ComponentActivity() {
                                 onClickCard = {
                                     navController.navigate("lecture_detail/$it")
                                 },
-                                onClickTask = {},
+                                onClickTask = {
+                                    navController.navigate("lecture_detail/$it")
+                                },
                                 onClickAdd = {
                                     navController.navigate("edit_lecture")
                                 }

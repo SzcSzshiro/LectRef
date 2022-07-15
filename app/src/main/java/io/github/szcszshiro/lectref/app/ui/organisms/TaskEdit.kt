@@ -1,57 +1,70 @@
 package io.github.szcszshiro.lectref.app.ui.organisms
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import io.github.szcszshiro.lectref.usecase.ObserveLectureUseCase
-import java.time.DayOfWeek
-import java.time.LocalTime
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Composable
-fun LectureEdit(
+fun TaskEdit(
     modifier: Modifier = Modifier,
     name: String,
     description: String,
-    week: DayOfWeek,
-    startTime: LocalTime,
+    deadLine: LocalDateTime,
     onChangeName: (value: String) -> Unit,
     onChangeDescription: (value: String) -> Unit,
-    onChangeWeek: (value: DayOfWeek) -> Unit,
-    onChangeStartTime: (value: LocalTime) -> Unit,
+    onChangeDeadLine: (value: LocalDateTime) -> Unit,
     onPushCancel: () -> Unit,
     onPushOk: () -> Unit
 ) {
-    var weekMenuExpanded by remember {
-        mutableStateOf(false)
-    }
-    val dialogState = rememberMaterialDialogState()
+    val dateDialogState = rememberMaterialDialogState()
+    val timeDialogState = rememberMaterialDialogState()
 
     MaterialDialog(
-        dialogState = dialogState,
+        dialogState = dateDialogState,
+        buttons = {
+            positiveButton("OK")
+            negativeButton("CANCEL")
+        }
+    ) {
+        datepicker(
+            initialDate = deadLine.toLocalDate(),
+            onDateChange = {
+                onChangeDeadLine(LocalDateTime.of(it, deadLine.toLocalTime()))
+            }
+        )
+    }
+    MaterialDialog(
+        dialogState = timeDialogState,
         buttons = {
             positiveButton("OK")
             negativeButton("CANCEL")
         }
     ) {
         timepicker(
-            is24HourClock = true
-        ){
-            onChangeStartTime(it)
-        }
+            initialTime = deadLine.toLocalTime(),
+            is24HourClock = true,
+            onTimeChange = {
+                onChangeDeadLine(LocalDateTime.of(deadLine.toLocalDate(), it))
+            }
+        )
     }
+
     Column(modifier = modifier) {
         TextField(
             value = name,
@@ -67,44 +80,30 @@ fun LectureEdit(
                 Text(text = "Lecture Description")
             }
         )
+        Text(text = "DeadLine:")
         Text(
-            text = week.name,
+            text = "${deadLine.toLocalDate()}",
             fontSize = 20.sp,
             modifier = Modifier.clickable {
-                weekMenuExpanded = true
+                dateDialogState.show()
             }
         )
-        DropdownMenu(
-            expanded = weekMenuExpanded,
-            onDismissRequest = { weekMenuExpanded = false }
-        ) {
-            for (wi in DayOfWeek.values()){
-                TextButton(onClick = {
-                    onChangeWeek(wi)
-                    weekMenuExpanded = false
-                }) {
-                    Text(
-                        text = wi.name
-                    )
-                }
-            }
-        }
         Text(
-            text = "${startTime.hour}:${startTime.minute.toString().padStart(2, '0')}~",
+            text = "${deadLine.toLocalTime()}",
             fontSize = 20.sp,
             modifier = Modifier.clickable {
-                dialogState.show()
+                timeDialogState.show()
             }
         )
         Row {
             TextButton(onClick = onPushCancel) {
-                Text(text = "Cancel")
+                Text(text = "CANCEL")
             }
             Button(
                 onClick = onPushOk,
                 modifier = Modifier.padding(start = 8.dp)
             ) {
-                Text(text = "Ok")
+                Text(text = "OK")
             }
         }
     }
@@ -112,29 +111,24 @@ fun LectureEdit(
 
 @Preview
 @Composable
-fun LectureEditPreview() {
+fun TaskEditPreview() {
     var name by remember {
         mutableStateOf("")
     }
     var description by remember {
         mutableStateOf("")
     }
-    var week by remember {
-        mutableStateOf(DayOfWeek.MONDAY)
-    }
-    var startTime by remember {
-        mutableStateOf(LocalTime.now())
+    var deadLine by remember {
+        mutableStateOf(LocalDateTime.now())
     }
 
-    LectureEdit(
+    TaskEdit(
         name = name,
         description = description,
-        week = week,
-        startTime = startTime,
-        onChangeName = {name = it},
-        onChangeDescription = {description = it},
-        onChangeWeek = {week = it},
-        onChangeStartTime = {startTime = it},
+        deadLine = deadLine,
+        onChangeName = { name = it },
+        onChangeDescription = { description = it },
+        onChangeDeadLine = { deadLine = it },
         onPushCancel = {},
         onPushOk = {}
     )

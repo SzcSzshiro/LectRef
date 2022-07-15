@@ -1,11 +1,11 @@
 package io.github.szcszshiro.lectref.app.ui.pages
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.github.szcszshiro.lectref.app.ui.organisms.ConsensusDialog
 import io.github.szcszshiro.lectref.app.ui.organisms.LectureDetail
 import io.github.szcszshiro.lectref.app.ui.templates.LectureDetailTemplate
 import io.github.szcszshiro.lectref.presentation.LectureDetailViewModel
@@ -38,88 +38,41 @@ fun LectureDetailPage(
     var deleteReferenceId by remember {
         mutableStateOf(-1)
     }
-    if (lectureDialogIsOpen){
-        AlertDialog(
-            onDismissRequest = {
-                lectureDialogIsOpen = false
-            },
-            confirmButton = {
-                Button(onClick = {
-                    lectureDialogIsOpen = false
-                    backToList()
-                    runBlocking {
-                        vm.deleteLecture(deleteLectureId)
-                    }
-                }) {
-                    Text(text = "Ok")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = {
-                    lectureDialogIsOpen = false
-                }) {
-                    Text(text = "Cancel")
-                }
-            },
-            text = {
-                Text(text = "Delete the Lecture Data?")
+
+    ConsensusDialog(
+        text = "Delete this Lecture Data?",
+        isOpen = lectureDialogIsOpen,
+        onClose = { lectureDialogIsOpen = false },
+        onConfirm = {
+            backToList()
+            runBlocking {
+                vm.deleteLecture(deleteLectureId)
             }
-        )
-    }
-    if (taskDialogIsOpen){
-        AlertDialog(
-            onDismissRequest = {
-                taskDialogIsOpen = false
-            },
-            confirmButton = {
-                Button(onClick = {
-                    taskDialogIsOpen = false
-                    runBlocking {
-                        vm.deleteTask(deleteTaskId)
-                    }
-                }) {
-                    Text(text = "Ok")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = {
-                    taskDialogIsOpen = false
-                }) {
-                    Text(text = "Cancel")
-                }
-            },
-            text = {
-                Text(text = "Delete the Reference Data?")
+        },
+        onDismiss = {}
+    )
+    ConsensusDialog(
+        text = "Delete this Task Data?",
+        isOpen = taskDialogIsOpen,
+        onClose = { taskDialogIsOpen = false },
+        onConfirm = {
+            runBlocking {
+                vm.deleteTask(deleteTaskId)
             }
-        )
-    }
-    if (referenceDialogIsOpen){
-        AlertDialog(
-            onDismissRequest = {
-                referenceDialogIsOpen  = false
-            },
-            confirmButton = {
-                Button(onClick = {
-                    referenceDialogIsOpen  = false
-                    runBlocking {
-                        vm.deleteReference(deleteReferenceId)
-                    }
-                }) {
-                    Text(text = "Ok")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = {
-                    referenceDialogIsOpen  = false
-                }) {
-                    Text(text = "Cancel")
-                }
-            },
-            text = {
-                Text(text = "Delete the Task Data?")
+        },
+        onDismiss = {}
+    )
+    ConsensusDialog(
+        text = "Delete this Reference Data?",
+        isOpen = referenceDialogIsOpen,
+        onClose = { referenceDialogIsOpen = false },
+        onConfirm = {
+            runBlocking {
+                vm.deleteReference(deleteReferenceId)
             }
-        )
-    }
+        },
+        onDismiss = {}
+    )
 
     LectureDetailTemplate(
         contents = {

@@ -9,6 +9,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import io.github.szcszshiro.lectref.app.ui.organisms.ConsensusDialog
 import io.github.szcszshiro.lectref.app.ui.organisms.LectureEdit
 import io.github.szcszshiro.lectref.app.ui.templates.EditTemplate
 import io.github.szcszshiro.lectref.presentation.EditLectureViewModel
@@ -45,29 +46,17 @@ fun EditLecturePage(
         mutableStateOf(false)
     }
 
-    if (showDialog){
-        AlertDialog(
-            onDismissRequest = {
-                showDialog = false
-            },
-            confirmButton = {
-                Button(onClick = {
-                    showDialog = false
-                    onBack()
-                }) {
-                    Text(text = "Ok")
-                }
-            },
-            dismissButton = {
-                TextButton(onClick = { showDialog = false }) {
-                    Text(text = "Cancel")
-                }
-            },
-            text = {
-                Text(text = "Cancel this Editing?")
-            }
-        )
-    }
+    ConsensusDialog(
+        text = "Cancel this Editing?",
+        isOpen = showDialog,
+        onClose = {
+            showDialog = false
+        },
+        onConfirm = {
+            onBack()
+        },
+        onDismiss = {}
+    )
 
     EditTemplate {
         LectureEdit(

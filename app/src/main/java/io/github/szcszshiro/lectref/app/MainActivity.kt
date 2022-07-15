@@ -73,7 +73,7 @@ class MainActivity : ComponentActivity() {
                             LectureDetailPage(
                                 lectureId = targetId,
                                 backToList = {
-                                    navController.navigate("lecture_list")
+                                    navController.popBackStack()
                                 },
                                 editLecture = {
                                     navController.navigate("edit_lecture?lectureId=$targetId")

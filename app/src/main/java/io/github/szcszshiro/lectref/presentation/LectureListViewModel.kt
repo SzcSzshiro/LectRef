@@ -25,7 +25,7 @@ class LectureListViewModel @Inject constructor(
                 LectureCardData(
                     lecture.id,
                     lecture.name,
-                    pair.second.filter { it.lectureId ==  lecture.id}.size,
+                    pair.second.filter { it.lectureId == lecture.id && !it.isDone}.size,
                     lecture.week.name,
                     "${lecture.startTime.hour}:${lecture.startTime.minute}~"
                 )

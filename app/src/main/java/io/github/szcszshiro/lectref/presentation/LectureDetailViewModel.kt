@@ -7,6 +7,7 @@ import io.github.szcszshiro.lectref.usecase.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
@@ -49,15 +50,30 @@ class LectureDetailViewModel @Inject constructor(
             }
             .asLiveData()
 
-    suspend fun deleteLecture(lectureId: Int){
+    fun deleteLecture(lectureId: Int){
         recordLectureUseCase.removeLecture(lectureId)
     }
 
-    suspend fun deleteTask(taskId: Int){
+    fun deleteTask(taskId: Int){
         recordTaskUseCase.removeTask(taskId)
     }
 
-    suspend fun deleteReference(referenceId: Int){
+    fun deleteReference(referenceId: Int){
         recordReferenceUseCase.removeReference(referenceId)
+    }
+
+    fun switchTaskIsDone(taskID: Int){
+        var target: ObserveTaskUseCase.TaskDTO?
+        runBlocking {
+            target = observeTaskUseCase.findFromId(taskID)
+        }
+        if (target == null) return
+        recordTaskUseCase.editTask(
+            taskID,
+            target!!.name,
+            target!!.description,
+            target!!.deadLine,
+            !target!!.isDone
+        )
     }
 }

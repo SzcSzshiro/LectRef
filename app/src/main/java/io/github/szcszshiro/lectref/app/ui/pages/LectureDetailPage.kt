@@ -95,7 +95,7 @@ fun LectureDetailPage(
                     editTask(null)
                 },
                 onClickFinishTask = {
-                    // TODO: タスクの完了処理の実装 
+                    vm.switchTaskIsDone(it)
                 },
                 onClickEditTask = {
                     editTask(it)

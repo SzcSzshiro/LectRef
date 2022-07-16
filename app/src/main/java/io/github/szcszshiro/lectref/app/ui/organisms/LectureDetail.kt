@@ -98,7 +98,7 @@ fun LectureDetail(
             TaskCard(
                 name = taskDTO.name,
                 description = taskDTO.description,
-                deadLineValue = "~${taskDTO.deadLine.hour}:${taskDTO.deadLine.minute.toString().padStart(2, '0')}",
+                deadLineValue = "~${taskDTO.deadLine.monthValue}/${taskDTO.deadLine.dayOfMonth} ${taskDTO.deadLine.hour}:${taskDTO.deadLine.minute.toString().padStart(2, '0')}",
                 isDone = taskDTO.isDone,
                 onClickFinish = {
                     onClickFinishTask(taskDTO.id)                

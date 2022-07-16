@@ -1,12 +1,18 @@
 package io.github.szcszshiro.lectref.infrastructure
 
 import io.github.szcszshiro.lectref.app.db.ITaskDao
+import io.github.szcszshiro.lectref.app.db.LectureEntity
 import io.github.szcszshiro.lectref.app.db.TaskEntity
+import io.github.szcszshiro.lectref.domain.lecture.Lecture
 import io.github.szcszshiro.lectref.domain.task.ITaskRepository
 import io.github.szcszshiro.lectref.domain.task.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.DayOfWeek
+import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
+import kotlin.jvm.Throws
 
 class TaskRepository @Inject constructor(
     private val dao: ITaskDao
@@ -85,6 +91,30 @@ class TaskRepository @Inject constructor(
                 task.description,
                 task.deadLine,
                 task.isDone
+            )
+        )
+    }
+
+    @Throws(IllegalArgumentException::class)
+    override suspend fun update(
+        id: Int,
+        newName: String?,
+        newDescription: String?,
+        newDeadLine: LocalDateTime?,
+        isDone: Boolean?
+    ) {
+        val target = findFromId(id)
+        require(target != null)
+        require(newName?.let { Task.isNameOk(it) }?: true)
+        require(newDescription?.let { Task.isDescriptionOk(it) }?: true)
+        dao.update(
+            TaskEntity(
+                id,
+                target.lectureId,
+                newName?: target.name,
+                newDescription?: target.description,
+                newDeadLine?: target.deadLine,
+                isDone?: target.isDone
             )
         )
     }

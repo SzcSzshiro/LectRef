@@ -33,7 +33,7 @@ fun LectureDetail(
     onClickEditTask: (taskId: Int) -> Unit,
     onClickDeleteTask: (taskId: Int) -> Unit,
     onClickAddReference: () -> Unit,
-    onClickOpenReference: (referenceId: Int) -> Unit,
+    onClickOpenReference: (url: String) -> Unit,
     onClickEditReference: (referenceId: Int) -> Unit,
     onClickDeleteReference: (referenceId: Int) -> Unit
 ) {
@@ -156,7 +156,7 @@ fun LectureDetail(
                 description = referenceDTO.description,
                 url = referenceDTO.url,
                 onClickOpen = {
-                    onClickOpenReference(referenceDTO.id)
+                    onClickOpenReference(referenceDTO.url)
                 },
                 onClickEdit = {
                     onClickEditReference(referenceDTO.id)

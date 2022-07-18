@@ -1,9 +1,12 @@
 package io.github.szcszshiro.lectref.app.ui.pages
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import io.github.szcszshiro.lectref.app.ui.organisms.ConsensusDialog
 import io.github.szcszshiro.lectref.app.ui.organisms.LectureDetail
@@ -20,6 +23,7 @@ fun LectureDetailPage(
     editReference: (id: Int?) -> Unit
 ) {
     val vm: LectureDetailViewModel = hiltViewModel()
+    val context = LocalContext.current
     var lectureDialogIsOpen by remember {
         mutableStateOf(false)
     }
@@ -108,7 +112,8 @@ fun LectureDetailPage(
                     editReference(null)
                 },
                 onClickOpenReference = {
-                    // TODO: URLオープン処理
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                    context.startActivity(intent)
                 },
                 onClickEditReference = {
                     editReference(it)

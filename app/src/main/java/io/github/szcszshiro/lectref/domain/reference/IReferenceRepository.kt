@@ -9,4 +9,10 @@ interface IReferenceRepository {
     suspend fun findFromLectureId(id: Int): List<Reference>
     suspend fun add(reference: Reference)
     suspend fun remove(reference: Reference)
+    suspend fun update(
+        id: Int,
+        name: String?,
+        url: String?,
+        description: String?
+    )
 }

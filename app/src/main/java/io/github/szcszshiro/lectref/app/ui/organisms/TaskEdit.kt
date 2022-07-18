@@ -70,17 +70,17 @@ fun TaskEdit(
             value = name,
             onValueChange = onChangeName,
             label = {
-                Text(text = "Lecture Name")
+                Text(text = "Task Name")
             }
         )
         TextField(
             value = description,
             onValueChange = onChangeDescription,
             label = {
-                Text(text = "Lecture Description")
+                Text(text = "Task Description")
             }
         )
-        Text(text = "DeadLine:")
+        Text(text = "Task DeadLine:")
         Text(
             text = "${deadLine.toLocalDate()}",
             fontSize = 20.sp,

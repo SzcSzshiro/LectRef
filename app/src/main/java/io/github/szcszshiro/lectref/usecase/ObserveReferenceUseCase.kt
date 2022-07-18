@@ -7,6 +7,9 @@ import javax.inject.Inject
 class ObserveReferenceUseCase @Inject constructor(
     private val referenceRepository: ReferenceRepository
 ){
+    suspend fun findFromId(id: Int) =
+        referenceRepository.findFromId(id)
+
     fun getFlow() =
         referenceRepository
             .getFlow()

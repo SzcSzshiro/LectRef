@@ -18,7 +18,8 @@
             android:name=".app.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.LectRef">
+            android:theme="@style/Theme.LectRef"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

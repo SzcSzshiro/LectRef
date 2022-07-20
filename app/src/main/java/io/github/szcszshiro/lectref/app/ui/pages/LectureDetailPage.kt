@@ -2,6 +2,7 @@ package io.github.szcszshiro.lectref.app.ui.pages
 
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
@@ -112,8 +113,13 @@ fun LectureDetailPage(
                     editReference(null)
                 },
                 onClickOpenReference = {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
-                    context.startActivity(intent)
+                    val uri = Uri.parse(it)
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    runCatching{
+                        context.startActivity(intent)
+                    }.onFailure {
+                        Toast.makeText(context, "URL OPEN FAILED.", Toast.LENGTH_SHORT).show()
+                    }
                 },
                 onClickEditReference = {
                     editReference(it)
